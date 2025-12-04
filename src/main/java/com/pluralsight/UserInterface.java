@@ -1,7 +1,7 @@
-package userInterface;
+package com.pluralsight;
 
-import managers.ShipperManager;
-import models.Shipper;
+import com.pluralsight.managers.ShipperManager;
+import com.pluralsight.models.Shipper;
 
 import javax.sql.DataSource;
 import java.util.List;
@@ -96,6 +96,16 @@ public class UserInterface {
             }
 
             //insert pretty formatting in here
+            System.out.printf("%-10s %-30s %-20s%n", "ID", "Company Name", "Phone Number");
+            System.out.println("---------------------------------------------------------------------");
+
+            for (Shipper shipper : shippers) {
+                System.out.printf("%-10d %-30s %-20s%n",
+                        shipper.getShipperID(),
+                        shipper.getCompanyName(),
+                        shipper.getPhoneNumber());
+            }
+            System.out.println();
         }
 
 

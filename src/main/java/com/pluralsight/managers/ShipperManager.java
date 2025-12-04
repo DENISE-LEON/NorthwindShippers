@@ -1,7 +1,6 @@
-package managers;
+package com.pluralsight.managers;
 
-import models.Shipper;
-
+import com.pluralsight.models.Shipper;
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
@@ -26,9 +25,17 @@ public class ShipperManager {
                 Connection connection = dataSource.getConnection();
 
                 PreparedStatement preparedStatement = connection.prepareStatement("""
-                        SELECT 
+                        SELECT shipperID,
+                        CompanyName,
+                        Phone
+                        FROM Shippers
                         """)
                 ) {
+            try(
+                    ResultSet resultSet = preparedStatement.executeQuery()
+                    ) {
+                addShipperToList(resultSet, shippers);
+            }
 
         }catch (SQLException e) {
             System.out.println(e.getErrorCode() + " " + e.getMessage());
@@ -51,5 +58,16 @@ public class ShipperManager {
 
     public void addNewShipperToList(ResultSet resultSet, List<Shipper> list) {
 
+    }
+
+    public void addShipperToList(ResultSet resultSet, List<Shipper> list) throws SQLException {
+
+        while (resultSet.next()) {
+            int shipperID = resultSet.getInt("ShipperID");
+            String name = resultSet.getString("CompanyName");
+            String phone = resultSet.getString("Phone");
+            Shipper shipper = new Shipper(shipperID, name, phone);
+            list.add(shipper);
+        }
     }
 }

@@ -1,4 +1,4 @@
-package models;
+package com.pluralsight.models;
 
 public class Shipper {
     int shipperID;
