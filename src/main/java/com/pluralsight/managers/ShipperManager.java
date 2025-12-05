@@ -82,12 +82,12 @@ public class ShipperManager {
         }
     }
 
-    public void updateField(int shipperID, String fieldName, String newVal) {
+    public void updateField(int shipperID, ShipperField fieldName, String newVal) {
 
         try(
                 Connection connection = dataSource.getConnection();
-
-                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Shippers SET" + fieldName + "= ? WHERE ShipperID = ?")
+                                                                                                            //need cloumn name for query to work
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Shippers SET " + fieldName.getColumn() + "= ? WHERE ShipperID = ?")
 
         ) {
             preparedStatement.setString(1, newVal);
@@ -99,6 +99,7 @@ public class ShipperManager {
                 System.out.println("No rows updated — check if the ShipperID exists.");
             } else {
                 System.out.println("Shipper updated successfully!");
+                System.out.println();
             }
 
 

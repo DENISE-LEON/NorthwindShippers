@@ -1,5 +1,6 @@
 package com.pluralsight;
 
+import com.pluralsight.managers.ShipperField;
 import com.pluralsight.managers.ShipperManager;
 import com.pluralsight.models.Shipper;
 
@@ -21,6 +22,7 @@ public class UserInterface {
         boolean run = true;
         try {
             while (run) {
+                System.out.println();
                 System.out.println("What would you like to do?");
                 System.out.println("""
                         1) View all shippers
@@ -86,6 +88,40 @@ public class UserInterface {
     }
 
     public void updateShipperProcess() {
+        System.out.println("Which field would you like to update?");
+        System.out.println("""
+                1) Company name
+                2) Phone number
+                0) Return to main menu
+                """);
+        int fieldChoice = scanner.nextInt();
+        scanner.nextLine();
+
+        ShipperField field = null;
+        switch (fieldChoice) {
+            case 1:
+              field =  ShipperField.COMPANY_NAME;
+              break;
+            case 2:
+                field = ShipperField.PHONE;
+                break;
+            case 0:
+
+                System.out.print("Returning to main menu");
+                loadingDots();
+                System.out.println();
+                return;
+        }
+
+        System.out.println("Please enter the ID of the shipper you'd like to update");
+        int shipperID = scanner.nextInt();
+        scanner.nextLine();
+
+        System.out.println("What would you like to update the field to?");
+        String newVal = scanner.nextLine();
+
+        nowDoingMgs("Updating");
+        shipperManager.updateField(shipperID, field, newVal);
 
     }
 
