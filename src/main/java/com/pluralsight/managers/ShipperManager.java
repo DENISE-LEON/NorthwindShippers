@@ -10,7 +10,6 @@ import java.util.List;
 public class ShipperManager {
 
     private final DataSource dataSource;
-    private List<Shipper> shippers = new ArrayList<>();
 
     public ShipperManager(DataSource dataSource) {
         this.dataSource = dataSource;
@@ -42,6 +41,7 @@ public class ShipperManager {
         return shippers;
     }
 
+    //theres no need to worry abt adding new shipper to list bc the db will be updated and when want to view all shippers add to list will be called
     public Integer insertNewShipper(String name, String phoneNum) {
         try (
                 Connection connection = dataSource.getConnection();
@@ -70,8 +70,6 @@ public class ShipperManager {
                     //the column that contains the key
                     int newID = keys.getInt(1);
 
-                    Shipper shipper = new Shipper(newID, name, phoneNum);
-                    shippers.add(shipper);
                     return newID;
                 } else {
                     System.out.println("Insert succeeded but no ID was returned.");
@@ -85,6 +83,28 @@ public class ShipperManager {
     }
 
     public void updateField(int shipperID, String fieldName, String newVal) {
+
+        try(
+                Connection connection = dataSource.getConnection();
+
+                PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Shippers SET" + fieldName + "= ? WHERE ShipperID = ?")
+
+        ) {
+            preparedStatement.setString(1, newVal);
+            preparedStatement.setInt(2, shipperID);
+
+            int rows = preparedStatement.executeUpdate();
+
+            if (rows == 0) {
+                System.out.println("No rows updated — check if the ShipperID exists.");
+            } else {
+                System.out.println("Shipper updated successfully!");
+            }
+
+
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode() + " " + e.getMessage());
+        }
 
     }
 
