@@ -63,7 +63,8 @@ public class UserInterface {
     }
 
     public void viewALlShippersProcess() {
-    printShippers(shipperManager.getAllShippers());
+        nowDisplayingMgs("all shippers");
+        printShippers(shipperManager.getAllShippers());
     }
 
     public void newShipperProcess() {
@@ -76,7 +77,12 @@ public class UserInterface {
 
         String phoneNum = scanner.nextLine();
 
-        shipperManager.insertNewShipper(shipperName, phoneNum);
+        nowDoingMgs("adding" + " " + shipperName);
+
+        //can use the returned value AND run everything in the method if stored in variable
+        Integer id = shipperManager.insertNewShipper(shipperName, phoneNum);
+        System.out.println("Done!");
+        System.out.println("Shipper ID is:" + " " + id);
     }
 
     public void updateShipperProcess() {
@@ -88,34 +94,34 @@ public class UserInterface {
     }
 
 
-        public static void printShippers(List<Shipper> shippers) {
-            if (shippers.isEmpty()) {
-                System.out.println("No shippers found.");
-                System.out.println();
-                return;
-            }
-
-            //insert pretty formatting in here
-            System.out.printf("%-10s %-30s %-20s%n", "ID", "Company Name", "Phone Number");
-            System.out.println("---------------------------------------------------------------------");
-
-            for (Shipper shipper : shippers) {
-                System.out.printf("%-10d %-30s %-20s%n",
-                        shipper.getShipperID(),
-                        shipper.getCompanyName(),
-                        shipper.getPhoneNumber());
-            }
+    public static void printShippers(List<Shipper> shippers) {
+        if (shippers.isEmpty()) {
+            System.out.println("No shippers found.");
             System.out.println();
+            return;
         }
 
+        //insert pretty formatting in here
+        System.out.printf("%-10s %-30s %-20s%n", "ID", "Company Name", "Phone Number");
+        System.out.println("---------------------------------------------------------------------");
+
+        for (Shipper shipper : shippers) {
+            System.out.printf("%-10d %-30s %-20s%n",
+                    shipper.getShipperID(),
+                    shipper.getCompanyName(),
+                    shipper.getPhoneNumber());
+        }
+        System.out.println();
+    }
 
 
+//extra stuff
 
     public void nowDoingMgs(String what) {
         System.out.print("Loading");
         loadingDots();
         System.out.println();
-        System.out.print("Completing task " + what);
+        System.out.print("Now " + what);
         loadingDots();
         System.out.println();
 
