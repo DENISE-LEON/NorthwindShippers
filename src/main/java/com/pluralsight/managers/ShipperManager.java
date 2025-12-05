@@ -73,7 +73,7 @@ public class ShipperManager {
                     return newID;
                 } else {
                     System.out.println("Insert succeeded but no ID was returned.");
-                   return null;
+                    return null;
                 }
             }
         } catch (SQLException e) {
@@ -84,9 +84,9 @@ public class ShipperManager {
 
     public void updateField(int shipperID, ShipperField fieldName, String newVal) {
 
-        try(
+        try (
                 Connection connection = dataSource.getConnection();
-                                                                                                            //need cloumn name for query to work
+                //need cloumn name for query to work
                 PreparedStatement preparedStatement = connection.prepareStatement("UPDATE Shippers SET " + fieldName.getColumn() + "= ? WHERE ShipperID = ?")
 
         ) {
@@ -110,7 +110,26 @@ public class ShipperManager {
     }
 
     public void removeShipper(int shipperID) {
+        try (
+                Connection connection = dataSource.getConnection();
 
+                PreparedStatement preparedStatement = connection.prepareStatement("""
+                        DELETE
+                        FROM Shippers
+                        WHERE ShipperID = ?;
+                        """)
+        ) {
+            preparedStatement.setInt(1, shipperID);
+
+            int rows = preparedStatement.executeUpdate();
+
+            if (rows == 0) {
+                System.out.println("No rows inserted, shipper not added.");
+            }
+
+        } catch (SQLException e) {
+            System.out.println(e.getErrorCode() + " " + e.getMessage());
+        }
     }
 
 

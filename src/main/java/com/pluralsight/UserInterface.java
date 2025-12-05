@@ -88,6 +88,8 @@ public class UserInterface {
     }
 
     public void updateShipperProcess() {
+        //could wrap in try catch
+        System.out.println("Tip: if you don't know the ID on the shipper go back to main menu and select option 1 to view all shippers");
         System.out.println("Which field would you like to update?");
         System.out.println("""
                 1) Company name
@@ -113,6 +115,7 @@ public class UserInterface {
                 return;
         }
 
+        //could wrap in try catch
         System.out.println("Please enter the ID of the shipper you'd like to update");
         int shipperID = scanner.nextInt();
         scanner.nextLine();
@@ -126,6 +129,16 @@ public class UserInterface {
     }
 
     public void deleteShipperProcess() {
+        //could wrap in try catch
+        System.out.println("Tip: if you don't know the ID on the shipper go back to main menu and select option 1 to view all shippers");
+        System.out.println("Enter the Shipper ID of the shipper you'd like to delete from the DB");
+        int shipperToDelete = scanner.nextInt();
+        scanner.nextLine();
+
+
+        shipperManager.removeShipper(shipperToDelete);
+        nowDoingMgs("removing shipper with Shipper ID" + " " + shipperToDelete);
+
 
     }
 
